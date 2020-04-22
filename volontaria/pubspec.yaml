@@ -23,6 +23,14 @@ dependencies:
   http: any
   shared_preferences: any
   json_annotation: ^2.0.0
+  fluttertoast: ^4.0.0
+  intl: ^0.16.1
+  maps_launcher: ^1.2.0
+  majascan: ^0.3.6
+  badges: ^1.1.1
+  no_context_navigation: ^1.0.1
+  font_awesome_flutter: ^8.8.1
+  url_launcher: ^5.4.5
 
 dev_dependencies:
   flutter_test:

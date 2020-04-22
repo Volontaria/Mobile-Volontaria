@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:volontaria/data/base_model.dart';
+import 'package:volontaria/data/baseModel.dart';
+import 'package:volontaria/data/cell.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable()
-class User extends BaseModel{
+class User implements BaseModel{
   User({
     this.id,
     this.username,
@@ -15,9 +16,10 @@ class User extends BaseModel{
     this.mobile,
     this.isActive,
     this.isSuperuser,
-    //this.managedCell,
+    this.managedCell,
   });
 
+  // Methods and attributes related to serialization / deserialization
   @JsonKey(name: "id")
   final int id;
 
@@ -45,11 +47,12 @@ class User extends BaseModel{
   @JsonKey(name: "is_superuser")
   final bool isSuperuser;
 
-  //@JsonKey(name: "managed_cell")
-  //final List<Cell> managedCell;
-
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  @JsonKey(name: "managed_cell")
+  final List<Cell> managedCell;
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+
+  // Methods related to data class
 }
