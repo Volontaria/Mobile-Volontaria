@@ -20,6 +20,5 @@
 **Code standard**
  - [ ] This Pull-Request fully meets the requirements defined in the issue
  - [ ] Add or modify the attached tests
- - [ ] Follow the PEP8 Styleguide
- - [ ] Document new code based on the Documentation Styleguide
+ - [ ] Document new code based
  - [ ] Use I18N functions when you add some text
