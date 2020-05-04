@@ -12,7 +12,7 @@ import 'package:volontaria/screens/customs.layout/screens.layouts.dart';
 import 'package:volontaria/services/eventService.dart';
 import 'package:volontaria/services/participationService.dart';
 import 'package:volontaria/services/userService.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -292,6 +292,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     // Get profile
     _sharedPreferences = await SharedPreferences.getInstance();
     _currentAuth = await UserService().getProfile(Token(_sharedPreferences.getString("token")));
+
+    print("token:" + _sharedPreferences.getString("token"));
 
     // Get participations and events linked
     List<Participation> participationsList = await ParticipationService().getParticipations(_currentAuth);

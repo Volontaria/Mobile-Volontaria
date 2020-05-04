@@ -6,7 +6,7 @@ import 'package:volontaria/data/participation.dart';
 import 'package:volontaria/models/auth.dart';
 import 'package:volontaria/services/globalService.dart';
 import 'package:volontaria/utils/network.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 
 class ParticipationService implements GlobalService{
 

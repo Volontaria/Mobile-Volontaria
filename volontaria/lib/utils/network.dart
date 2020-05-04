@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:no_context_navigation/no_context_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 
 class Network {
   // Singleton

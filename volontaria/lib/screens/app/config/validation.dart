@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:volontaria/screens/customs.layout/config.layouts.dart';
 
 class ValidationPage extends StatefulWidget {
@@ -34,7 +35,7 @@ class _ValidationPageState extends State<ValidationPage> {
     Widget _okButton(){
       return RaisedButton(
         onPressed: () {
-          Navigator.pushNamedAndRemoveUntil(context, '/app/login', (Route<dynamic> route) => false);
+          _checkLoginStatus();
         },
         color: Theme.of(context).buttonColor,
         child: Text("OK !", style: Theme.of(context).textTheme.body1),
@@ -92,5 +93,18 @@ class _ValidationPageState extends State<ValidationPage> {
         ),
       ),
     );
+  }
+
+  // Local methods //
+  _checkLoginStatus() async {
+    // Check if the user is already connected with a token
+    SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    if (_sharedPreferences.getString("token") == null) {
+      // If not, push the screen to login
+      Navigator.pushNamedAndRemoveUntil(context, '/app/login', (Route<dynamic> route) => false);
+    } else {
+      // If yes, push the home screen
+      Navigator.pushNamedAndRemoveUntil(context, '/app/home', (Route<dynamic> route) => false);
+    }
   }
 }

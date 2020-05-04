@@ -6,7 +6,7 @@ import 'package:volontaria/models/registration.dart';
 import 'package:volontaria/screens/customs.layout/screens.layouts.dart';
 import 'package:volontaria/screens/customs.widget/customDialog.dart';
 import 'package:volontaria/services/participationService.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 
 class EventDetailsPage extends StatefulWidget {
 
