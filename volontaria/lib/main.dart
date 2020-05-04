@@ -14,7 +14,7 @@ import 'package:volontaria/screens/app/config/welcome.dart';
 import 'package:volontaria/screens/app/register/cellPicker.dart';
 import 'package:volontaria/screens/app/register/eventDetails.dart';
 import 'package:volontaria/screens/app/register/eventPicker.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 
 void main() => runApp(VolontariaApp());
 

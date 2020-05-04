@@ -19,6 +19,11 @@ class _AddServerFormPageState extends State<AddServerFormPage> {
   Widget build(BuildContext context) {
 
     // Methods for screen builder
+    // Description text for input of API url
+    Widget _APIUrlInputText(){
+      return Text("Ou saisissez l'URL fournie par votre organisation", style: Theme.of(context).textTheme.body1);
+    }
+
     // Manual input for API url
     Widget _APIUrlInput(){
       return TextFormField(
@@ -61,12 +66,23 @@ class _AddServerFormPageState extends State<AddServerFormPage> {
         qRScannerColor: Colors.white,
         flashlightEnable: true,
       );
+
+      // Save API URL
       _saveServerName(jsonDecode(code)["instanceAPIUrl"]);
+
+      // Check if there is token in QR code
+      if(jsonDecode(code)["token"] != null){
+        // If so, save the token
+        _saveToken(jsonDecode(code)["token"]);
+      }
+
+      // Go to validation page
+      Navigator.pushNamedAndRemoveUntil(context, '/config/validation', (Route<dynamic> route) => false);
     }
 
     // Description text for QR code input of API url
     Widget _APIUrlQRCodeText(){
-      return Text("Ou scannez le QR code de votre organisation !", style: Theme.of(context).textTheme.body1);
+      return Text("Scannez le QR code de votre organisation !", style: Theme.of(context).textTheme.body1);
     }
 
     // QR code input for API url
@@ -94,11 +110,13 @@ class _AddServerFormPageState extends State<AddServerFormPage> {
         padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 20.0),
         child: Column(
           children: <Widget>[
-            _APIUrlInput(),
-            _APIUrlInputButton(),
-            SizedBox(height: 50.0),
             _APIUrlQRCodeText(),
             _APIUrlQRCodeButton(),
+            SizedBox(height: 50.0),
+            _APIUrlInputText(),
+            SizedBox(height: 20.0),
+            _APIUrlInput(),
+            _APIUrlInputButton(),
           ],
         ),
       );
@@ -120,10 +138,16 @@ class _AddServerFormPageState extends State<AddServerFormPage> {
 
   // Local methods //
   _saveServerName(String serverName) async {
-    // Save the the server URL in local storage
+    // Save the server URL in local storage
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sharedPreferences.setString("apiURL", serverName);
-    Navigator.pushNamedAndRemoveUntil(context, '/config/validation', (Route<dynamic> route) => false);
   }
+
+  _saveToken(String token) async {
+    // Save the token in local storage
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString("token", token);
+  }
+
 }
 

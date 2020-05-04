@@ -53,8 +53,8 @@ class _ProfilePageState extends State<ProfilePage> {
             children: <Widget>[
               _listTile(Icons.person, _currentAuth.user.firstName + " " + _currentAuth.user.lastName),
               _listTile(Icons.mail, _currentAuth.user.email),
-              _listTile(Icons.phone, _currentAuth.user.phone.isNotEmpty ? _currentAuth.user.phone : '-'),
-              _listTile(Icons.phone_android, _currentAuth.user.mobile.isNotEmpty ? _currentAuth.user.mobile : '-'),
+              _listTile(Icons.phone, _currentAuth.user.phone.isNotEmpty ?? _currentAuth.user.phone.isNotEmpty ? _currentAuth.user.phone : '-'),
+              _listTile(Icons.phone_android, _currentAuth.user.mobile.isNotEmpty ?? _currentAuth.user.mobile.isNotEmpty ? _currentAuth.user.mobile : '-'),
             ],
           )
       );

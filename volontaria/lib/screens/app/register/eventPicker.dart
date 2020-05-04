@@ -14,7 +14,7 @@ import 'package:volontaria/screens/customs.widget/filtersContainer.dart';
 import 'package:volontaria/services/eventService.dart';
 import 'package:volontaria/services/participationService.dart';
 import 'package:volontaria/services/taskTypeService.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 import 'package:volontaria/utils/utils.dart';
 
 class EventPickerPage extends StatefulWidget {

@@ -5,7 +5,7 @@ import 'package:volontaria/data/baseModel.dart';
 import 'package:volontaria/data/cell.dart';
 import 'package:volontaria/data/cycle.dart';
 import 'package:volontaria/data/taskType.dart';
-import 'package:volontaria/app/constants.dart';
+import 'package:volontaria/utils/constants.dart';
 import 'package:volontaria/utils/utils.dart';
 
 part 'event.g.dart';
