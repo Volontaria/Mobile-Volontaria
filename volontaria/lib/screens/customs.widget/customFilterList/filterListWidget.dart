@@ -269,27 +269,6 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     onPressed: () {
-                      setState(
-                            () {
-                          _selectedTextList = List.from(_allTextList);
-                        },
-                      );
-                    },
-                    child: Container(
-                      height: double.infinity,
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Tous',
-                        style: Theme.of(context).textTheme.headline.copyWith(
-                            fontSize: 20, color: widget.allResetButonColor),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    onPressed: () {
                       setState(() {
                         _selectedTextList.clear();
                       });
@@ -298,7 +277,7 @@ class _FilterListWidgetState extends State<FilterListWidget> {
                       height: double.infinity,
                       alignment: Alignment.center,
                       child: Text(
-                        'Reset',
+                        'Réinitialiser',
                         style: Theme.of(context).textTheme.headline.copyWith(
                             fontSize: 20, color: widget.allResetButonColor),
                         textAlign: TextAlign.center,

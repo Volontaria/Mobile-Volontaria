@@ -30,9 +30,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   // Data for screen
   SharedPreferences _sharedPreferences;
   Auth _currentAuth;
-  List<Schedule> _scheduleListDisplay;
-  List<Schedule> _scheduleListAsOnHold;
-  List<Schedule> _scheduleListAsVolunteer;
+  List<Schedule> _scheduleListDisplay = List();
+  List<Schedule> _scheduleListAsOnHold = List();
+  List<Schedule> _scheduleListAsVolunteer = List();
 
   @override
   void initState() {
@@ -291,38 +291,43 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   _load() async {
     // Get profile
     _sharedPreferences = await SharedPreferences.getInstance();
-    _currentAuth = await UserService().getProfile(Token(_sharedPreferences.getString("token")));
 
-    print("token:" + _sharedPreferences.getString("token"));
+    UserService().getProfile(Token(_sharedPreferences.getString("token"))).then((auth) async {
+      _currentAuth = auth;
+      // Get participations and events linked
+      List<Participation> participationsList = await ParticipationService().getParticipations(_currentAuth);
+      List<Event> eventsList = await EventService().getEventsVolunteers(_currentAuth);
 
-    // Get participations and events linked
-    List<Participation> participationsList = await ParticipationService().getParticipations(_currentAuth);
-    List<Event> eventsList = await EventService().getEventsVolunteers(_currentAuth);
-
-    // Create complete schedule
-    _scheduleListAsOnHold = List();
-    _scheduleListAsVolunteer = List();
-    for (Event event in eventsList){
-      // Check if event is in the future
-      if (event.isInFuture()){
-        for (Participation participation in participationsList){
-          if (event.id == participation.event){
-            // Check participation status
-            if (participation.standBy){
-              _scheduleListAsOnHold.add(Schedule(participation, event));
-            } else {
-              _scheduleListAsVolunteer.add(Schedule(participation, event));
+      // Create complete schedule
+      for (Event event in eventsList){
+        // Check if event is in the future
+        if (event.isInFuture()){
+          for (Participation participation in participationsList){
+            if (event.id == participation.event){
+              // Check participation status
+              if (participation.standBy){
+                _scheduleListAsOnHold.add(Schedule(participation, event));
+              } else {
+                _scheduleListAsVolunteer.add(Schedule(participation, event));
+              }
             }
           }
         }
       }
-    }
 
-    // Refresh the screen
-    setState(() {
-      _scheduleListDisplay = _scheduleListAsVolunteer;
-      _isLoading = false;
-      _volunteerLoaded = true;
+      // Refresh the screen
+      setState(() {
+        _scheduleListDisplay = _scheduleListAsVolunteer;
+        _isLoading = false;
+        _volunteerLoaded = true;
+      });
+
+    }).catchError((error){
+      // No authentication returned
+      setState(() {
+        _isLoading = false;
+        _volunteerLoaded = true;
+      });
     });
   }
 }

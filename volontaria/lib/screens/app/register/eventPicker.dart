@@ -39,13 +39,13 @@ class _EventPickerPageState extends State<EventPickerPage> with WidgetsBindingOb
   Registration _currentRegistration;
   Auth _currentAuth;
   Cell _currentCell;
-  List<Event> _eventsListDisplay;
-  List<Event> _eventsList;
+  List<Event> _eventsListDisplay = List();
+  List<Event> _eventsList = List();
 
   // Filters
   DateTime _startDate;
   DateTime _endDate;
-  List<String> _stringTaskTypesList;
+  List<String> _stringTaskTypesList = List();
   List<String> _selectedTaskTypesList = List();
 
   _EventPickerPageState(Registration registration){
@@ -340,36 +340,48 @@ class _EventPickerPageState extends State<EventPickerPage> with WidgetsBindingOb
   _load() async {
     // Get participations of the user and events
     List<Participation> participationsList = await ParticipationService().getParticipations(_currentAuth);
-    _eventsList = await EventService().getEventsWithFilters(_currentAuth, _currentCell, _startDate, _endDate);
 
-    // Look at the events
-    for (Event event in _eventsList){
-      // Check if event is in the future
-      if (event.isInFuture()){
-        // Not registered by default
-        event.alreadyRegistered = false;
-        for (Participation participation in participationsList){
-          // Check if registered
-          if (event.id == participation.event){
-            event.alreadyRegistered = true;
+    _eventsListDisplay = List();
+    _eventsList = List();
+
+    EventService().getEventsWithFilters(_currentAuth, _currentCell, _startDate, _endDate).then((events){
+      _eventsList = events;
+
+      // Look at the events
+      for (Event event in _eventsList){
+        // Check if event is in the future
+        if (event.isInFuture()){
+          // Not registered by default
+          event.alreadyRegistered = false;
+          for (Participation participation in participationsList){
+            // Check if registered
+            if (event.id == participation.event){
+              event.alreadyRegistered = true;
+            }
           }
         }
       }
-    }
 
-    // Actualize the display list of events
-    _eventsListDisplay = _eventsList;
+      // Actualize the display list of events
+      _eventsListDisplay = _eventsList;
 
-    // If there is task types selected as filter, apply to the list
-    if (_selectedTaskTypesList.isNotEmpty){
-      _eventsListDisplay = _eventsListDisplay.where((Event event) {
-        return _selectedTaskTypesList.contains(event.taskType.name);
-      }).toList();
-    }
+      // If there is task types selected as filter, apply to the list
+      if (_selectedTaskTypesList.isNotEmpty){
+        _eventsListDisplay = _eventsListDisplay.where((Event event) {
+          return _selectedTaskTypesList.contains(event.taskType.name);
+        }).toList();
+      }
 
-    setState(() {
-      _isLoading = false;
-      _isListLoading = false;
+      setState(() {
+        _isLoading = false;
+        _isListLoading = false;
+      });
+
+    }).catchError((onError){
+      setState(() {
+        _isLoading = false;
+        _isListLoading = false;
+      });
     });
   }
 }

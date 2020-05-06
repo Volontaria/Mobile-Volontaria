@@ -24,7 +24,7 @@ class _CellPickerPageState extends State<CellPickerPage> with WidgetsBindingObse
 
   // Data for screen
   Auth _currentAuth;
-  List<Cell> _cellsListDisplay;
+  List<Cell> _cellsListDisplay = List();
 
   _CellPickerPageState(Auth auth){
     this._currentAuth = auth;
@@ -158,16 +158,23 @@ class _CellPickerPageState extends State<CellPickerPage> with WidgetsBindingObse
 
   // Local methods //
   _load() async {
+
     // Get cells
-    _cellsListDisplay = await CellService().getCells(_currentAuth);
+    CellService().getCells(_currentAuth).then((cells) {
+      _cellsListDisplay = cells;
 
-    setState(() {
-      _isLoading = false;
+      setState(() {
+        _isLoading = false;
+      });
+
+      // If there is only one cell available, go directly to the events of this cell
+      if (_cellsListDisplay.length == 1){
+        Navigator.pushNamedAndRemoveUntil(context, '/app/events', (Route<dynamic> route) => false, arguments: Registration(_currentAuth, _cellsListDisplay[0]));
+      }
+    }).catchError((onError){
+      setState(() {
+        _isLoading = false;
+      });
     });
-
-    // If there is only one cell available, go directly to the events of this cell
-    if (_cellsListDisplay.length == 1){
-      Navigator.pushNamedAndRemoveUntil(context, '/app/events', (Route<dynamic> route) => false, arguments: Registration(_currentAuth, _cellsListDisplay[0]));
-    }
   }
 }

@@ -60,7 +60,9 @@ class ScreenLayouts {
       return IconButton(
         icon: Icon(Icons.exit_to_app, color: Theme.of(context).iconTheme.color),
         onPressed: () {
-          auth.token.clearValue();
+          if (auth != null){
+            auth.token.clearValue();
+          }
           Navigator.pushNamedAndRemoveUntil(context, '/app/login', (Route<dynamic> route) => false);
         },
       );
