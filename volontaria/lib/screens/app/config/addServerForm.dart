@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:majascan/majascan.dart';
 import 'package:volontaria/screens/customs.layout/config.layouts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:volontaria/screens/customs.widget/customDialog.dart';
+import 'package:volontaria/utils/constants.dart';
 
 class AddServerFormPage extends StatefulWidget {
   @override
@@ -48,7 +50,15 @@ class _AddServerFormPageState extends State<AddServerFormPage> {
         margin: EdgeInsets.only(top: 15.0),
         child: RaisedButton(
           onPressed: _serverURLController.text == "" ? null : () {
-            _saveServerName(_serverURLController.text);
+            CustomDialog.validationDialog(context, addServerWithURLDialogTitle, addServerWithURLDialogDescriptionStart + _serverURLController.text + addServerWithURLDialogDescriptionEnd).then((confirmed) async{
+              if (confirmed){
+                // If confirmed, save the save name
+                _saveServerName(_serverURLController.text);
+
+                // Go to validation page
+                Navigator.pushNamedAndRemoveUntil(context, '/config/validation', (Route<dynamic> route) => false);
+              }
+            });
           },
           color: Theme.of(context).buttonColor,
           child: Text("Ajouter le serveur", style: Theme.of(context).textTheme.body1),

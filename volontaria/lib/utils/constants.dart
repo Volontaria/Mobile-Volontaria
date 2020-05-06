@@ -46,3 +46,6 @@ final String registrationDialogTitle = "M'inscrire";
 final String registrationDialogDescription = "Es-tu vraiment sûr de vouloir t'inscrire à cet évènement ?";
 final String changeInstanceDialogTitle = "Changer d'organisme";
 final String changeInstanceDialogDescription = "Cette action mène vers la configuration initiale de l'application. Es-tu vraiment sûr de vouloir de changer d'organisme ?";
+final String addServerWithURLDialogTitle = "Validation de l'URL";
+final String addServerWithURLDialogDescriptionStart = "L'adresse renseignée manuellement est : \n\n";
+final String addServerWithURLDialogDescriptionEnd = "\n\nVérifies l'exactitude de l'adresse avec celle donnée par le site internet. Confirmes-tu ta saisie ?";

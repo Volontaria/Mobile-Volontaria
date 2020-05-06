@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:volontaria/screens/customs.layout/config.layouts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:volontaria/screens/customs.widget/customDialog.dart';
 import 'package:volontaria/services/userService.dart';
+import 'package:volontaria/utils/constants.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -130,6 +132,48 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
+    // Function for the change instance button
+    void _changeInstanceButtonAction(){
+      CustomDialog.validationDialog(context, changeInstanceDialogTitle, changeInstanceDialogDescription).then((confirmed) async{
+        if (confirmed){
+          // If confirmed, delete token and API URL which are stored in the local storage
+          SharedPreferences.getInstance().then((SharedPreferences sharedPreferences) => sharedPreferences.setString("apiURL", null));
+          SharedPreferences.getInstance().then((SharedPreferences sharedPreferences) => sharedPreferences.setString("token", null));
+          // Then go configuration page
+          Navigator.pushNamedAndRemoveUntil(context, '/config/welcome', (Route<dynamic> route) => false, arguments: null);
+        }
+      });
+    }
+
+    // Text for the change instance button
+    Widget _changeInstanceButtonText(){
+      return Text("Changer d'organisation", style: Theme.of(context).textTheme.button);
+    }
+
+    // Change instance button
+    Widget _changeInstanceButton(){
+      return RaisedButton(
+          elevation: 0.0,
+          color: Theme.of(context).buttonColor,
+          child: _changeInstanceButtonText(),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
+          onPressed: () {
+            _changeInstanceButtonAction();
+          }
+      );
+    }
+
+    // Container for the change instance button
+    Widget _changeInstanceButtonContainer(){
+      return Container(
+        width: MediaQuery.of(context).size.width,
+        height: 40.0,
+        padding: EdgeInsets.symmetric(horizontal: 15.0),
+        margin: EdgeInsets.only(top: 15.0),
+        child: _changeInstanceButton(),
+      );
+    }
+
     // Body section
     Widget _bodySection() {
       return Container(
@@ -140,6 +184,7 @@ class _LoginPageState extends State<LoginPage> {
             _fieldsContainer(),
             _rememberMeRow(),
             _logInButtonContainer(),
+            _changeInstanceButtonContainer(),
           ],
         ),
       );
